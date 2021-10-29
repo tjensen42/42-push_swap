@@ -6,7 +6,7 @@
 #    By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/27 22:03:08 by tjensen           #+#    #+#              #
-#    Updated: 2021/10/28 15:02:57 by tjensen          ###   ########.fr        #
+#    Updated: 2021/10/29 10:43:11 by tjensen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,13 @@ NAME		:= project
 CC			:= gcc
 CFLAGS		:= -Wall -Wextra -Werror
 
-SRCS		:= project.c
+SRCS		:= push_swap.c push_swap_utils.c input.c input_utils.c \
+			   operation_push.c operation_rotate.c operation_rotate_reverse.c \
+			   operation_swap.c stack_get.c stack_is.c \
+			   stack_rotation_count.c stack_rotation_case_choose.c \
+			   stack_rotation_case_set.c stack_rotation_set.c \
+			   stack_snake.c stack_sort_big.c stack_sort_execute.c \
+			   stack_sort_small.c stack_utils.c
 LDLIBS		:= -lft
 
 LIBDIRS		:= $(wildcard libs/*)

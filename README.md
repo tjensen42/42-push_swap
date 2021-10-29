@@ -1,49 +1,50 @@
-# Sample C Project Structure
+# 42-push_swap
 
-This is really just an example template-structure for a C project.
-
-There is no 'standard' C project structure, it really depends on the project and your personal application and your needs.
-
-But in general it is always good to have some kind of structure and being aware of that it matches with the type and scope of the project.
-
-I created this repo for myself to use it as git-template for the most 42 core curriculum projects.
-
-```
-.
-├── include/
-│   ├ header.h
-│   └ ...
-├── libs/
-│   ├ libft
-│   └ ...
-├── src/
-│   ├ project.c
-│   └ ...
-├── .gitignore
-├── .gitmodules
-├── Makefile
-└── README.md
-```
-
-The Makefile in every library should at least contain these rules:
-```all``` ```clean``` ```fclean``` ```re``` ```debug``` ```release```
+The program push_swap will sort random integers on a stack, with a limited set of instructions, trying to use the least stack operations to get an ascending sorted stack.
 
 ## How to use it
+1. Call ```make release```
+2. Start program with your own input: ```./push_swap [put your args seperated by spaces]```
+3. Start program with 500 random ints: ```./push_swap `ruby -e "puts (0..499).to_a.shuffle.join(' ')"```
 
-1. **Create** new repo based on this template.
-2. **Rename** project.c & project.h file and change header protection (#ifndef...)
-3. **Add libraries** if you have additional ones for your project
-- for example: ```git submodule add <libft-repo-link> libs/libft```
-5. **Makefile:** Add all *.c files to the SRCS variable
-6. **Makefile:** Name all libs in the LDLIBS variable ```libft -> "-lft" || libmath -> "-lmath"```
+## "Game Rules"
 
-## To remove a submodule from your repo you can delete it this way:
-1. Remove the submodule entry from .git/config <br> ```git submodule deinit -f path/to/submodule```
+<b>The game is composed of 2 stacks named A and B.</b>
 
-2. Remove the submodule directory from the superproject's .git/modules directory <br> ```rm -rf .git/modules/path/to/submodule```
+<b>Starting Point:</b>
+- Stack_A contains random numbers of either positive or negative numbers without any duplicates.
+- Stack_B is empty
 
-3. Remove the entry in .gitmodules and remove the submodule directory located at path/to/submodule <br> ```git rm -f path/to/submodule```
+<b>The goal is to sort in ascending order numbers into stack.</b>
 
-## Rempve 'preinstalled' libft:
+<b>The operations the program can do, are limited to the following set:</b>
 
-```git submodule deinit -f libs/libft && rm -rf .git/modules/libs/libft && git rm -f libs/libft```
+| Operations    | Description                                                                           |
+| ------------- | --------------------------------------------------------------------------------------|
+| <b>sa</b>     | swap a - swap the first 2 elements at the top of stack a. Do nothing if there is only one or no elements) |
+| <b>sb</b>     | swap b - swap the first 2 elements at the top of stack b. Do nothing if there is only one or no elements) |
+| <b>ss</b>     | sa and sb at the same time |
+| <b>pa</b>     | push a - take the first element at the top of b and put it at the top of a. Do nothing if b is empty |
+| <b>pb</b>     | push b - take the first element at the top of a and put it at the top of b. Do nothing if a is empty |
+| <b>ra</b>     | rotate a - shift up all elements of stack a by 1. The first element becomes the last one |
+| <b>rb</b>     | rotate b - shift up all elements of stack b by 1. The first element becomes the last one |
+| <b>rr</b>     | ra and rb at the same time |
+| <b>rra</b>    | reverse rotate a - shift down all elements of stack a by 1. The last element becomes the first one |
+| <b>rrb</b>    | reverse rotate b - shift down all elements of stack b by 1. The last element becomes the first one |
+| <b>rrr</b>    | rra and rrb at the same time |
+
+
+<hr>
+
+### Sample sorting animation for 100 integers:
+
+![push_swap-animation](https://user-images.githubusercontent.com/56789534/137463054-e642a7d5-711d-4f25-bf55-03b47d8fcfc3.gif)
+
+<hr>
+<b>*All 42 projects must be written in C (later C++) in accordance to the 42 School Norm.<br></b>
+<br>
+
+> #### Sample restrictions:
+> - All variables have to be declared and aligned at the top of each function
+> - Each function can not have more then 25 lines
+> - Projects should be created with allowed std functions otherwise it is cheating

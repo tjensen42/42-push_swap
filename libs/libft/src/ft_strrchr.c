@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   project.c                                          :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/27 21:27:42 by tjensen           #+#    #+#             */
-/*   Updated: 2021/10/28 00:36:00 by tjensen          ###   ########.fr       */
+/*   Created: 2021/07/09 12:24:42 by tjensen           #+#    #+#             */
+/*   Updated: 2021/09/14 11:23:22 by tjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "project.h"
+#include "libft.h"
 
-int	main(void)
+char	*ft_strrchr(const char *s, int c)
 {
-	write(1, "Sample C project structure\n", 27);
-	return (0);
+	int		i;
+	char	*str;
+
+	str = (char *)s;
+	i = ft_strlen(str);
+	while (i >= 0)
+	{
+		if (str[i] == (char)c)
+			return (&str[i]);
+		i--;
+	}
+	return (NULL);
 }
