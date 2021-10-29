@@ -5,101 +5,136 @@
 #                                                     +:+ +:+         +:+      #
 #    By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/10/27 22:03:08 by tjensen           #+#    #+#              #
-#    Updated: 2021/10/29 10:43:11 by tjensen          ###   ########.fr        #
+#    Created: 2021/09/30 18:33:16 by tjensen           #+#    #+#              #
+#    Updated: 2021/10/29 10:45:07 by tjensen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		:= project
+NAME		= push_swap
+CHECKER		= checker
 
-CC			:= gcc
-CFLAGS		:= -Wall -Wextra -Werror
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror
 
-SRCS		:= push_swap.c push_swap_utils.c input.c input_utils.c \
-			   operation_push.c operation_rotate.c operation_rotate_reverse.c \
-			   operation_swap.c stack_get.c stack_is.c \
-			   stack_rotation_count.c stack_rotation_case_choose.c \
-			   stack_rotation_case_set.c stack_rotation_set.c \
-			   stack_snake.c stack_sort_big.c stack_sort_execute.c \
-			   stack_sort_small.c stack_utils.c
-LDLIBS		:= -lft
+LIBFTDIR	= libs/libft
+INCLUDES	= -I./include -I./$(LIBFTDIR)/include
+LIBRARIES	= -L./$(LIBFTDIR)/ -lft
 
-LIBDIRS		:= $(wildcard libs/*)
-LDLIBS		:= $(addprefix -L./, $(LIBDIRS)) $(LDLIBS)
-INCLUDES	:= -I./include/ $(addprefix -I./, $(addsuffix /include, $(LIBDIRS)))
+SDIR		= src
+SRCS		= push_swap.c push_swap_utils.c input.c input_utils.c \
+			  operation_push.c operation_rotate.c operation_rotate_reverse.c \
+			  operation_swap.c stack_get.c stack_is.c \
+			  stack_rotation_count.c stack_rotation_case_choose.c \
+			  stack_rotation_case_set.c stack_rotation_set.c \
+			  stack_snake.c stack_sort_big.c stack_sort_execute.c \
+			  stack_sort_small.c stack_utils.c
+ODIR		= obj
+OBJS		= $(addprefix $(ODIR)/, $(SRCS:.c=.o))
 
-SDIR		:= src
-ODIR		:= obj
-OBJS		:= $(addprefix $(ODIR)/, $(SRCS:.c=.o))
+CHECK_SRCS	= checker.c input.c input_utils.c push_swap_utils.c stack_utils.c \
+			  operation_push.c operation_rotate.c operation_rotate_reverse.c \
+			  operation_swap.c
+CHECK_ODIR	= obj
+CHECK_OBJS	= $(addprefix $(CHECK_ODIR)/, $(CHECK_SRCS:.c=.o))
 
 # COLORS
-Y 			= "\033[33m"
-R 			= "\033[31m"
-G 			= "\033[32m"
-B 			= "\033[34m"
-X 			= "\033[0m"
+COM_COLOR   = \033[0;34m
+OBJ_COLOR   = \033[0;36m
+OK_COLOR    = \033[0;32m
+ERROR_COLOR = \033[0;31m
+WARN_COLOR  = \033[0;33m
+NO_COLOR    = \033[m
 
 # **************************************************************************** #
-#	SYSTEM SPECIFIC SETTINGS							   					   #
+#						SYSTEM SPECIFIC SETTINGS							   #
 # **************************************************************************** #
 
-UNAME_S		:= $(shell uname -s)
-
-ifeq ($(UNAME_S), Linux)
-	CFLAGS += -D LINUX -Wno-unused-result
+UNAME_S	= $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	CFLAGS += -D LINUX -Wno-unused-result -Wno-maybe-uninitialized
 endif
 
 # **************************************************************************** #
-#	FUNCTIONS									   							   #
+#									RULES									   #
 # **************************************************************************** #
 
-define MAKE_LIBS
-	for DIR in $(LIBDIRS); do \
-		$(MAKE) -C $$DIR $(1) --silent; \
-	done
-endef
+.PHONY: all
+all: $(NAME) checker
 
-# **************************************************************************** #
-#	RULES																	   #
-# **************************************************************************** #
-
-.PHONY: all $(NAME) header prep clean fclean re bonus debug release libs
-
-all: $(NAME)
-
-$(NAME): libs header prep $(OBJS)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDLIBS)
-	@printf "=== finished\n"
-
-$(ODIR)/%.o: $(SDIR)/%.c
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-header:
-	@printf "### $(NAME)\n"
-
-prep:
-	@mkdir -p $(ODIR)
-
-clean: libs header
-	@$(RM) -r $(ODIR)
-
-fclean: libs header clean
-	@$(RM) $(NAME)
-
-re: header fclean all
-
-bonus: all
-
+.PHONY: debug
 debug: CFLAGS += -O0 -DDEBUG -g
 debug: all
 
+.PHONY: release
 release: fclean
 release: CFLAGS	+= -O2 -DNDEBUG
-release: all clean
+release: all
 
-libs:
-ifeq ($(MAKECMDGOALS), $(filter $(MAKECMDGOALS), clean fclean re debug release))
-	@$(call MAKE_LIBS,$(MAKECMDGOALS))
+header:
+	@printf "%b" "###############################################\n"
+	@printf "%-14b %b" "$(WARN_COLOR)#######" "$(NAME)$(NO_COLOR)\n"
+
+# Compiling
+.PHONY: $(ODIR)/%.o
+$(ODIR)/%.o: $(SDIR)/%.c
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@printf "%-57b %b" "$(COM_COLOR)compile $(OBJ_COLOR)$@" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
+
+# Linking
+.PHONY: $(NAME)
+$(NAME): libft header prep $(OBJS)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARIES)
+	@printf "%-14b %-42b %b" "$(OK_COLOR)=======" "$(OK_COLOR)$(NAME)" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
+
+.PHONY: libft
+libft:
+ifneq ($(MAKECMDGOALS), $(filter $(MAKECMDGOALS), $(NAME) $(CHECKER)))
+	@make -C $(LIBFTDIR) $(MAKECMDGOALS) --silent
 else
-	@$(call MAKE_LIBS,all)
+	@make -C $(LIBFTDIR) --silent
 endif
+
+.PHONY: prep
+prep:
+	@mkdir -p $(ODIR)
+
+.PHONY: clean
+clean: libft header
+	@$(RM) -r $(ODIR) $(CHECK_ODIR)
+	@printf "%-50b %b" "$(COM_COLOR)clean" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
+
+.PHONY: fclean
+fclean: libft header clean
+	@$(RM) $(NAME) $(CHECKER)
+	@$(RM) -r src/$(NAME) src/*.dSYM
+	@printf "%-50b %b" "$(COM_COLOR)fclean" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
+
+.PHONY: re
+re: fclean all
+
+.PHONY: bonus
+bonus: checker
+
+# **************************************************************************** #
+#						       CHECKER RULES        						   #
+# **************************************************************************** #
+
+checker_header:
+	@printf "%b" "###############################################\n"
+	@printf "%-14b %b" "$(WARN_COLOR)#######" "$(CHECKER)$(NO_COLOR)\n"
+
+# Linking
+.PHONY: $(CHECKER)
+$(CHECKER): libft checker_header checker_prep $(CHECK_OBJS)
+	@$(CC) $(CFLAGS) -o $(CHECKER) $(CHECK_OBJS) $(LIBRARIES)
+	@printf "%-14b %-42b %b" "$(OK_COLOR)=======" "$(OK_COLOR)$(NAME)" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
+
+# Compiling
+.PHONY: $(ODIR)/%.o
+$(CHECK_ODIR)/%.o: $(SDIR)/%.c
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@printf "%-57b %b" "$(COM_COLOR)compile $(OBJ_COLOR)$@" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
+
+.PHONY: checker_prep
+checker_prep:
+	@mkdir -p $(CHECK_ODIR)
