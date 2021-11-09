@@ -37,7 +37,9 @@ The program push_swap will sort random integers on a stack, with a limited set o
 <hr>
 
 ### Sample sorting animation for 100 integers:
-Visualized with the great push_swap [visualizer](https://github.com/o-reo/push_swap_visualizer) from [o-reo](https://github.com/o-reo). We really liked it to work with it and it helped a lot to find strange behaviour of the sorting algorithms. 
+
+*Visualized with the great push_swap [visualizer](https://github.com/o-reo/push_swap_visualizer) from [o-reo](https://github.com/o-reo). We really liked it to work with it and it helped a lot to find strange behaviour of the sorting algorithms. 
+
 ![push_swap-animation](https://user-images.githubusercontent.com/56789534/137463054-e642a7d5-711d-4f25-bf55-03b47d8fcfc3.gif)
 
 <hr>
