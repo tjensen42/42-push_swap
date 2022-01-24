@@ -3,9 +3,10 @@
 The program push_swap will sort random integers on a stack, with a limited set of instructions, trying to use the least stack operations to get an ascending sorted stack.
 
 ## How to use it
+0. Clone the repo
 1. Call ```make release```
-2. Start program with your own input: ```./push_swap [put your args seperated by spaces]```
-3. Start program with 500 random ints: ```./push_swap `ruby -e "puts (0..499).to_a.shuffle.join(' ')"` ```
+3. Start program with your own input: ```./push_swap [put your args seperated by spaces]```
+4. Start program with 500 random ints: ```./push_swap `ruby -e "puts (0..499).to_a.shuffle.join(' ')"` ```
 
 ## "Game Rules"
 
