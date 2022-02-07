@@ -75,13 +75,11 @@ header:
 	@printf "%-14b %b" "$(WARN_COLOR)#######" "$(NAME)$(NO_COLOR)\n"
 
 # Compiling
-.PHONY: $(ODIR)/%.o
 $(ODIR)/%.o: $(SDIR)/%.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 	@printf "%-57b %b" "$(COM_COLOR)compile $(OBJ_COLOR)$@" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
 
 # Linking
-.PHONY: $(NAME)
 $(NAME): libft header prep $(OBJS)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARIES)
 	@printf "%-14b %-42b %b" "$(OK_COLOR)=======" "$(OK_COLOR)$(NAME)" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
@@ -124,13 +122,11 @@ checker_header:
 	@printf "%-14b %b" "$(WARN_COLOR)#######" "$(CHECKER)$(NO_COLOR)\n"
 
 # Linking
-.PHONY: $(CHECKER)
 $(CHECKER): libft checker_header checker_prep $(CHECK_OBJS)
 	@$(CC) $(CFLAGS) -o $(CHECKER) $(CHECK_OBJS) $(LIBRARIES)
 	@printf "%-14b %-42b %b" "$(OK_COLOR)=======" "$(OK_COLOR)$(NAME)" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
 
 # Compiling
-.PHONY: $(ODIR)/%.o
 $(CHECK_ODIR)/%.o: $(SDIR)/%.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 	@printf "%-57b %b" "$(COM_COLOR)compile $(OBJ_COLOR)$@" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
