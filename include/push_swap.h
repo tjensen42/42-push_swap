@@ -6,7 +6,7 @@
 /*   By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:15:44 by tjensen           #+#    #+#             */
-/*   Updated: 2021/10/14 17:09:06 by tjensen          ###   ########.fr       */
+/*   Updated: 2022/12/02 18:35:29 by tjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdbool.h>
 # include <errno.h>
 # include <sys/types.h>
+#include <stdio.h>
 
 /* ************************************************************************** */
 /* USER INCLUDES															  */
@@ -35,6 +36,7 @@
 # define INVALID_INPUT -2
 # define STACK_EMPTY -3
 # define STACK_ITEM_DOES_NOT_EXIST -4
+# define NO_CHUNK -5
 
 /* ************************************************************************** */
 /* DEFINES: ROTATION CASES													  */
@@ -71,6 +73,7 @@ typedef struct s_input
 typedef struct s_stack
 {
 	int				num;
+	int 			chunk;
 	bool			is_snake;
 	struct s_stack	*next;
 	struct s_stack	*prev;
@@ -104,8 +107,8 @@ typedef struct s_snake
 */
 typedef struct s_sort
 {
-	int		range;
-	int		max_range;
+	int		chunk_size;
+	int		chunk_size_best;
 	int		ra_rra_count[2];
 	int		rb_rrb_count[2];
 	int		rr_rrr_count[2];
@@ -180,6 +183,10 @@ int		stack_get_smallest(t_stack *stack);
 int		stack_get_next_bigger(t_stack *stack, int num);
 int		stack_get_next_smaller(t_stack *stack, int num);
 
+// CHUNK GETS
+int 	stack_get_smallest_chunk(t_stack *stack);
+int     stack_get_biggest_chunk(t_stack *stack);
+
 // STACK ROTATION
 void	stack_rot_case_set(t_sort *sort, int rotation_case);
 int		stack_rot_case_choose(t_sort *sort);
@@ -196,7 +203,7 @@ void	stack_snake_set(t_ps *ps, t_snake *snake);
 
 // STACK SORT EXECUTE
 int		stack_sort_execute_rotation(t_ps *ps, t_sort *sort, bool print);
-int		stack_sort_execute_snake(t_ps *ps, bool print);
+int	    stack_sort_push_b(t_ps *ps, bool print, t_snake *snake);
 
 // STACK SORT
 void	stack_sort_small(t_ps *push_swap);

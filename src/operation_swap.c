@@ -6,7 +6,7 @@
 /*   By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 16:29:33 by tjensen           #+#    #+#             */
-/*   Updated: 2021/10/14 16:38:05 by tjensen          ###   ########.fr       */
+/*   Updated: 2022/12/02 14:19:32 by tjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,13 @@ int	operation_ss(t_ps *push_swap, bool print)
 /* General function to swap the first two items on a stack */
 static void	stack_item_swap(t_stack *stack)
 {
-	int	tmp;
+	t_stack	tmp;
 
-	tmp = stack->num;
+	tmp = *stack;
 	stack->num = stack->next->num;
-	stack->next->num = tmp;
+    stack->chunk = stack->next->chunk;
+    stack->is_snake = stack->next->is_snake;
+	stack->next->num = tmp.num;
+	stack->next->chunk = tmp.chunk;
+	stack->next->is_snake = tmp.is_snake;
 }

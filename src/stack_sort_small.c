@@ -6,7 +6,7 @@
 /*   By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 10:34:34 by tjensen           #+#    #+#             */
-/*   Updated: 2021/10/19 10:34:17 by tjensen          ###   ########.fr       */
+/*   Updated: 2022/12/02 18:35:40 by tjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	stack_sort_small(t_ps *ps)
 		while (ps->a_size > 3)
 			operation_pb(ps, true);
 		stack_sort_3(ps);
-		sort.range = 1;
+		sort.chunk_size = ps->size;
 		while (ps->b_size)
 		{
 			num = stack_rot_count_find_best_num_b(ps, &sort);

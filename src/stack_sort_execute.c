@@ -6,7 +6,7 @@
 /*   By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:20:52 by tjensen           #+#    #+#             */
-/*   Updated: 2021/10/14 17:35:39 by tjensen          ###   ########.fr       */
+/*   Updated: 2022/12/02 17:03:21 by tjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,40 @@ static void	stack_sort_execute_rot_forward(t_ps *ps, t_sort *sort, bool print);
 **	Executes all operations to "isolate" a marked snake on stack_A
 **	pushs all not marked items to stack_B
 */
-int	stack_sort_execute_snake(t_ps *ps, bool print)
+int	stack_sort_push_b(t_ps *ps, bool print, t_snake *snake)
 {
-	int	i;
+    int i;
+    int chunk;
 	int	count;
 
+    // print = true;
+    i = 0;
+    chunk = 0;
 	count = 0;
-	i = 0;
-	while (i < ps->size)
+	// while (i < 100)
+	while (ps->a_size > snake->max_len)
 	{
-		if (ps->a_top->is_snake)
-			count += operation_ra(ps, print);
-		else
+        // printf("ps-a_size: %d\t snake-max_len: %d\n", ps->a_size, snake->max_len);
+        // if (ps->a_top->is_snake)
+        //     count += operation_ra(ps, print);
+        // else
+        //     count += operation_pb(ps, print);
+
+        // write(2, "efw", 3);
+        while (stack_get_smallest_chunk(ps->a_top) > chunk + 1)
+            chunk += 2;
+		if (ps->a_top->chunk == chunk)
+        {
+            count += operation_pb(ps, print);
+        }
+		else if (ps->a_top->chunk == chunk + 1)
+        {
 			count += operation_pb(ps, print);
-		i++;
+			count += operation_rb(ps, print);
+        }
+		else
+            count += operation_ra(ps, print);
+        i++;
 	}
 	return (count);
 }

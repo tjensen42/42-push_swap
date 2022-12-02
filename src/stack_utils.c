@@ -6,7 +6,7 @@
 /*   By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:42:19 by tjensen           #+#    #+#             */
-/*   Updated: 2021/10/15 12:30:13 by tjensen          ###   ########.fr       */
+/*   Updated: 2022/12/02 15:08:04 by tjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	stack_item_init(t_stack *stack, int size, int position, int count)
 {
 	stack[position].num = count;
 	stack[position].is_snake = false;
+	stack[position].chunk = NO_CHUNK;
 	if (position == 0 && size == 1)
 	{
 		stack[position].next = &stack[position];

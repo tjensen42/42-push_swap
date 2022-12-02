@@ -6,7 +6,7 @@
 #    By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/30 18:33:16 by tjensen           #+#    #+#              #
-#    Updated: 2021/10/29 10:45:07 by tjensen          ###   ########.fr        #
+#    Updated: 2022/12/02 18:23:38 by tjensen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		= push_swap
 CHECKER		= checker
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -g3 -fsanitize=address # -Werror
 
 LIBFTDIR	= libs/libft
 INCLUDES	= -I./include -I./$(LIBFTDIR)/include
@@ -27,6 +27,7 @@ SRCS		= push_swap.c push_swap_utils.c input.c input_utils.c \
 			  stack_rotation_count.c stack_rotation_case_choose.c \
 			  stack_rotation_case_set.c stack_rotation_set.c \
 			  stack_snake.c stack_sort_big.c stack_sort_execute.c \
+			  stack_chunk.c \
 			  stack_sort_small.c stack_utils.c
 ODIR		= obj
 OBJS		= $(addprefix $(ODIR)/, $(SRCS:.c=.o))

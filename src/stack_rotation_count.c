@@ -6,7 +6,7 @@
 /*   By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 16:33:41 by tjensen           #+#    #+#             */
-/*   Updated: 2021/10/16 01:41:16 by tjensen          ###   ########.fr       */
+/*   Updated: 2022/12/02 18:35:23 by tjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,26 @@ int	stack_rot_count_find_best_num_b(t_ps *ps, t_sort *sort)
 {
 	t_stack	*tmp;
 	int		i;
-	int		smallest;
 	int		num;
 	int		rotation_min;
+    int     chunk;
 
-	smallest = stack_get_smallest(ps->b_top);
+    chunk = stack_get_biggest_chunk(ps->b_top);
 	rotation_min = ps->size;
 	tmp = ps->b_top;
 	i = 0;
 	while (i < ps->b_size)
 	{
-		if (tmp->num <= smallest + sort->range)
-		{
-			stack_rot_set_b_to_a(ps, sort, tmp->num);
-			if (sort->rotation_sum < rotation_min)
-			{
-				num = tmp->num;
-				rotation_min = sort->rotation_sum;
-			}
-		}
-		tmp = tmp->next;
+        if (tmp->chunk == chunk || tmp->chunk == chunk - 1)
+        {
+            stack_rot_set_b_to_a(ps, sort, tmp->num);
+            if (sort->rotation_sum < rotation_min)
+            {
+                num = tmp->num;
+                rotation_min = sort->rotation_sum;
+            }
+        }
+        tmp = tmp->next;
 		i++;
 	}
 	return (num);
